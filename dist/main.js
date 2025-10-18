@@ -92,7 +92,9 @@ export function extractStructureFilesFromMcworld(mcworld_1) {
             if (strKey.startsWith(structureKeyPrefix)) {
                 let namespacedStructureName = strKey.slice(structureKeyPrefix.length);
                 let structureName = removeDefaultNamespace && namespacedStructureName.startsWith(defaultNamespace) ? namespacedStructureName.replace(defaultNamespace, "") : namespacedStructureName;
-                structures.set(structureName, new File([value.value], structureName.replaceAll(":", "_") + ".mcstructure"));
+                structures.set(structureName, new File([value.value], structureName.replaceAll(":", "_") + ".mcstructure", {
+                    type: "application/mcstructure"
+                }));
             }
         });
         return structures;

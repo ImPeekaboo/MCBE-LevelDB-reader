@@ -1,11 +1,11 @@
 import LevelDb from "./LevelDb.js";
-import { BlobReader, ZipReader, Uint8ArrayWriter, Entry } from "@zip.js/zip.js";
+import { BlobReader, ZipReader, Uint8ArrayWriter, FileEntry } from "@zip.js/zip.js";
 import { LevelKeyValue } from "./types.js";
 
 /** Extracts all LevelDB keys from a zipped `.mcworld` file. Also accepts the zipped "db" folder. */
 export async function readMcworld(mcworld: Blob): Promise<Record<string, LevelKeyValue>> {
 	let folder = new ZipReader(new BlobReader(mcworld));
-	let fileEntries = await folder.getEntries();
+	let fileEntries = await folder.getEntries() as FileEntry[];
 	folder.close();
 	let currentEntry = fileEntries.find(entry => zipEntryBasename(entry) == "CURRENT");
 	if(!currentEntry) {
@@ -18,15 +18,15 @@ export async function readMcworld(mcworld: Blob): Promise<Record<string, LevelKe
 }
 
 /** Converts an Entry from zip.js into a File. */
-export async function zipEntryToFile(entry: Entry): Promise<File> {
+export async function zipEntryToFile(entry: FileEntry): Promise<File> {
 	return new File([await entry.getData(new Uint8ArrayWriter())], zipEntryBasename(entry));
 }
 /** Finds the basename of an Entry from zip.js. */
-export function zipEntryBasename(entry: Entry): string {
+export function zipEntryBasename(entry: FileEntry): string {
 	return entry.filename.slice(entry.filename.lastIndexOf("/") + 1);
 }
 /** Finds the directory name of an Entry from zip.js. */
-export function zipEntryDirname(entry: Entry): string {
+export function zipEntryDirname(entry: FileEntry): string {
 	return entry.filename.includes("/")? entry.filename.slice(0, entry.filename.lastIndexOf("/") + 1) : "";
 }
 
@@ -80,7 +80,9 @@ export async function extractStructureFilesFromMcworld(mcworld: Blob, removeDefa
 		if(strKey.startsWith(structureKeyPrefix)) {
 			let namespacedStructureName = strKey.slice(structureKeyPrefix.length);
 			let structureName = removeDefaultNamespace && namespacedStructureName.startsWith(defaultNamespace)? namespacedStructureName.replace(defaultNamespace, "") : namespacedStructureName;
-			structures.set(structureName, new File([value.value], structureName.replaceAll(":", "_") + ".mcstructure"));
+			structures.set(structureName, new File([value.value as Uint8Array<ArrayBuffer>], structureName.replaceAll(":", "_") + ".mcstructure", {
+				type: "application/mcstructure"
+			}));
 		}
 	});
 	return structures;
