@@ -1,12 +1,22 @@
 {
-	"compilerOptions": {
-		"target": "ES6",
-		"module": "NodeNext",
-		"sourceMap": true,
-		"lib": ["ES2021", "DOM"],
-		"outDir": "dist",
-		"moduleResolution": "nodenext",
-		"declaration": true
-	},
-	"include": ["main.ts"]
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "lib": [
+            "ES2020",
+            "DOM"
+        ],
+        "types": [
+            "node"
+        ],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "declaration": true
+    },
+    "include": [
+        "main.ts"
+    ]
 }

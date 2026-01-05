@@ -1,14 +1,26 @@
 import { FileEntry } from "@zip.js/zip.js";
 import { LevelKeyValue } from "./types.js";
-/** Extracts all LevelDB keys from a zipped `.mcworld` file. Also accepts the zipped "db" folder. */
+/**
+ * Extracts all LevelDB keys from a zipped `.mcworld` file.
+ * (Browser & Node compatible)
+ */
 export declare function readMcworld(mcworld: Blob): Promise<Record<string, LevelKeyValue>>;
-/** Converts an Entry from zip.js into a File. */
+/**
+ * Converts a zip.js Entry into a File object.
+ */
 export declare function zipEntryToFile(entry: FileEntry): Promise<File>;
-/** Finds the basename of an Entry from zip.js. */
 export declare function zipEntryBasename(entry: FileEntry): string;
-/** Finds the directory name of an Entry from zip.js. */
 export declare function zipEntryDirname(entry: FileEntry): string;
-/** Reads a LevelDB database from all its files and returns an object with all keys. */
+/**
+ * Core LevelDB reader.
+ * Accepts LevelDB files as File[] (zip OR folder).
+ */
 export declare function readLevelDb(dbFiles: Array<File>): Promise<Record<string, LevelKeyValue>>;
-/** Extracts structure files from a `.mcworld` file. */
-export declare function extractStructureFilesFromMcworld(mcworld: Blob, removeDefaultNamespace?: boolean): Promise<Map<string, File>>;
+/**
+ * Reads LevelDB directly from a `db/` folder (Node.js only).
+ */
+export declare function readLevelDbFromFolder(dbDir: string): Promise<Record<string, LevelKeyValue>>;
+/**
+ * Reads a full Bedrock world folder (expects `db/`).
+ */
+export declare function readWorldFolder(worldDir: string): Promise<Record<string, LevelKeyValue>>;

@@ -16,16 +16,26 @@
     "import": "./dist/main.js",
     "types": "./dist/main.d.ts"
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SuperLlama88888/MCBE-LevelDB-reader.git"
   },
-  "keywords": ["minecraft", "bedrock", "leveldb"],
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "leveldb"
+  ],
   "author": "SuperLlama88888",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SuperLlama88888/MCBE-LevelDB-reader/issues"
   },
-  "homepage": "https://github.com/SuperLlama88888/MCBE-LevelDB-reader#readme"
+  "homepage": "https://github.com/SuperLlama88888/MCBE-LevelDB-reader#readme",
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3"
+  }
 }
